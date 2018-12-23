@@ -1,0 +1,69 @@
+<?php
+
+namespace App;
+
+##use##
+
+/**
+ * App\##model##
+ *
+ * @property int $id
+ ##phpdoc##
+ * @mixin Builder
+ */
+class ##model## extends Model
+{
+    use Searchable, AccessesRules;
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = '##table##';
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = ##timestamps##;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [##fillable##];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [##hidden##];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * The supported (and meaningful) cast types are:
+     * int, float, string, bool, object, array, collection, date and datetime
+     *
+     * @var array
+     */
+     protected $casts = [##casts##];
+
+    /**
+     * Searchable fields.
+     *
+     * @var array
+     */
+    protected $searchable = [##searchable##];
+
+    /**
+     * Validation rules.
+     *
+     * @var array
+     */
+    protected $rules = [##rules##];
+##lists####relations##}

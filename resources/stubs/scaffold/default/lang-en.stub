@@ -1,0 +1,28 @@
+<?php
+
+return [
+
+    'index' => [
+        'title' => '##models##',
+        'heading' => '##models##',
+    ],
+
+    'form' => [
+        'title' => '##model##',
+        'heading' => '##model##',
+        'operation_failed' => 'Operation failed!',
+        'successful_created' => '##model## has been created.',
+        'successful_updated' => '##model## has been updated.',
+        'successful_deleted' => '##model## has been deleted.',
+    ],
+
+    'show' => [
+        'title' => '##model##',
+        'heading' => '##model##',
+    ],
+
+    'model' => [
+        'id' => 'ID',
+        ##list##],
+
+];

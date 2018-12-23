@@ -1,0 +1,9 @@
+/**
+ * Define the relation to ##model##.
+ *
+ * @return Builder|\Illuminate\Database\Eloquent\Relations\##class##
+ */
+public function ##name##()
+{
+    return $this->##method##(##model##::class);
+}

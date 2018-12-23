@@ -1,0 +1,139 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\##model##;
+use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
+
+class ##model##Controller extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @param ##model## $builder
+     * @return View
+     */
+    public function index(Request $request, ##model## $builder)
+    {
+        $searchTerm = $request->input('search');
+        if ($searchTerm) {
+            $builder = $builder->search($searchTerm);
+        }
+
+        $sortby = $request->input('sort_by', 'id');
+        $order = $request->input('sort_order', 'desc');
+        if ($sortby && $order) {
+            $builder = $builder->orderBy($sortby, $order);
+        }
+
+        $perPage = 20;
+        $##entities## = $builder->paginate($perPage)->appends($request->input());
+
+        return view('##package##.index', compact('##entities##'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return View
+     */
+    public function create()
+    {
+        return view('##package##.form', ['##entity##' => new ##model##()]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @param ##model## $##entity##
+     * @return RedirectResponse
+     */
+    public function store(Request $request, ##model## $##entity##)
+    {
+        $input = $request->input();
+        $validator = Validator::make($input, $##entity##->getRules(), [], __('##package##.model'));
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
+
+        $##entity##->create($input);
+
+        return redirect('##package##')->with('message', __('##package##.form.successful_created'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param ##model## $##entity##
+     * @return View
+     */
+    public function show(##model## $##entity##)
+    {
+        return view('##package##.show', compact('##entity##'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param ##model## $##entity##
+     * @return View
+     */
+    public function edit(##model## $##entity##)
+    {
+        return view('##package##.form', compact('##entity##'));
+    }
+
+    /**
+     * Clone the given model and shows the edit view.
+     *
+     * @param ##model## $##entity##
+     * @return View
+     */
+    public function replicate(##model## $##entity##)
+    {
+        $##entity## = $##entity##->replicate();
+
+        return view('##package##.form', compact('##entity##'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param ##model## $##entity##
+     * @return RedirectResponse
+     */
+    public function update(Request $request, ##model## $##entity##)
+    {
+        $input = $request->input();
+
+        $validator = Validator::make($input, $##entity##->getRules(), [], __('##package##.model'));
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
+
+        $##entity##->update($input);
+
+        return redirect('##package##')->with('message', __('##package##.form.successful_updated'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param ##model## $##entity##
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function destroy(##model## $##entity##)
+    {
+        $##entity##->delete();
+
+        return redirect('##package##')->with('message', __('##package##.form.successful_deleted'));
+    }
+}

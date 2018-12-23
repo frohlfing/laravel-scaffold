@@ -1,0 +1,15 @@
+<div class="form-group row">
+    <div class="offset-md-4 col-md-6">
+        <div class="form-check">
+            <input id="##name##" name="##name##" value="1" type="checkbox" {{ (int)old('##name##', $##entity##->##name##) ? 'checked="checked"' : '' }} ##attributes##class="form-check-input{{ $errors->has('##name##') ? ' is-invalid' : '' }}"/>
+            <label for="##name##" class="form-check-label">
+                {{ __('##package##.model.##name##') }}
+            </label>
+            @if($errors->has('##name##'))
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->first('##name##') }}</strong>
+                </span>
+            @endif
+        </div>
+    </div>
+</div>

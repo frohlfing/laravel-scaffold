@@ -1,0 +1,8 @@
+<!-- ##title## -->
+@can('manage-##package##')
+    <li class="nav-item">
+        <a class="nav-link {{ is_active('##package##') ? 'active' : '' }}" href="{{ url('##package##') }}">
+            <i class="fas fa-asterisk"></i> {{ __('app.nav.##package##') }}
+        </a>
+    </li>
+@endcan

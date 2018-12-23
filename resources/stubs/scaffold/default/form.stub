@@ -1,0 +1,45 @@
+@extends('layouts.app')
+
+@section('title', __('##package##.form.title'))
+
+@section('scripts')
+    @include('##package##._script')
+@endsection
+
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div>
+                    @include('_message')
+                    {{-- @include('_errors') --}}
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                          {{ __('##package##.form.heading') . (isset($##entity##->id) ? ' #' . $##entity##->id : '') }}
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('##package##.' . (isset($##entity##->id) ? 'update' : 'store'), [$##entity##->id]) }}" accept-charset="UTF-8" class="form-horizontal">
+                            @if(isset($##entity##->id))
+                                <input name="_method" value="PATCH" type="hidden"/>
+                            @endif
+                            <input name="_token" value="{{ csrf_token() }}" type="hidden"/>
+                            ##controls##
+                            <hr/>
+                            <div class="form-group row mb-0">
+                                <div class="col-md-8 offset-md-4">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fas fa-save" aria-hidden="true"></i> {{ __('common.buttons.save') }}
+                                    </button>
+                                    <a href="{{ route('##package##.index') }}" class="btn btn-secondary">
+                                        {{ __('common.buttons.cancel') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

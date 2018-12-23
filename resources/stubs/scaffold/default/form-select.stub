@@ -1,0 +1,18 @@
+<div class="form-group row">
+    <label for="##name##" class="col-md-4 col-form-label text-md-right">
+        {{ __('##package##.model.##name##') }}
+    </label>
+    <div class="col-md-6">
+        <select id="##name##" name="##name##" ##attributes##class="form-control{{ $errors->has('##name##') ? ' is-invalid' : '' }}" data-placeholder="{{ __('##package##.model.##name##') }}">
+            <option selected="selected" value=""></option>
+            @foreach(##list## as $value)
+                <option value="{{ $value }}" {!! $value === old('##name##', $##entity##->##name##) ? 'selected="selected"' : '' !!}>{{ $value }}</option>
+            @endforeach
+        </select>
+        @if($errors->has('##name##'))
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('##name##') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>

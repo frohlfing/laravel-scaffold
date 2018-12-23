@@ -1,0 +1,5 @@
+// ##models##
+Route::group(['middleware' => 'can:manage-##package##'], function() {
+    Route::get('##package##/{##entity##}/replicate', '##model##Controller@replicate')->name('##package##.replicate');
+    Route::resource('##package##', '##model##Controller');
+});

@@ -1,0 +1,11 @@
+// ##models##
+Route::group(['middleware' => 'can:manage-##package##'], function() {
+    Route::get('##package##', '##model##Controller@index')->name('##package##.index');
+    Route::get('##package##/create', '##model##Controller@create')->name('##package##.create');
+    Route::post('##package##', '##model##Controller@store')->name('##package##.store');
+    Route::get('##package##/{##entity##}', '##model##Controller@show')->name('##package##.show');
+    Route::get('##package##/{##entity##}/edit', '##model##Controller@edit')->name('##package##.edit');
+    Route::get('##package##/{##entity##}/replicate', '##model##Controller@replicate')->name('##package##.replicate');
+    Route::match(['put','patch'], '##package##/{##entity##}', '##model##Controller@update')->name('##package##.update');
+    Route::delete('##package##/{##entity##}', '##model##Controller@destroy')->name('##package##.destroy');
+});
