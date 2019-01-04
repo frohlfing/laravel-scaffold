@@ -11,8 +11,8 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div>
-                    @include('_message')
-                    {{-- @include('_errors') --}}
+                    @include('base::_message')
+                    {{-- @include('base::_errors') --}}
                 </div>
                 <div class="card">
                     <div class="card-header">
@@ -29,10 +29,10 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button class="btn btn-primary" type="submit">
-                                        <i class="fas fa-save" aria-hidden="true"></i> {{ __('common.buttons.save') }}
+                                        <i class="fas fa-save" aria-hidden="true"></i> {{ __('base::common.buttons.save') }}
                                     </button>
                                     <a href="{{ route('##package##.index') }}" class="btn btn-secondary">
-                                        {{ __('common.buttons.cancel') }}
+                                        {{ __('base::common.buttons.cancel') }}
                                     </a>
                                 </div>
                             </div>

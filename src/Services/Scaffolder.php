@@ -43,13 +43,6 @@ class Scaffolder
     private $stubPath;
 
     /**
-     * View containing the menu item marker.
-     *
-     * @var string
-     */
-    private $navView;
-
-    /**
      * Create a new command instance.
      *
      * @param $options
@@ -62,7 +55,6 @@ class Scaffolder
         $this->input = $input;
         $this->output = !($output instanceof OutputStyle) ? new OutputStyle($input, $output) : $output;
         $this->stubPath = realpath(__DIR__ . '/../../resources/stubs/scaffold');
-        $this->navView = '_nav';
     }
 
     /**
@@ -143,11 +135,13 @@ class Scaffolder
 
         $use = [];
 
-        $use[] = 'use App\\Traits\\AccessesRules;';
-        $use[] = 'use App\\Traits\\Searchable;';
         if ($hasTimestamps || array_first($fields, function($field) { return in_array($field['type'], ['date', 'datetime']); })) {
             $use[] = 'use Carbon\\Carbon;';
         }
+
+        $use[] = 'use FRohlfing\\Base\\Traits\\AccessesRules;';
+        $use[] = 'use FRohlfing\\Base\\Traits\\Searchable;';
+        $use[] = 'use FRohlfing\\Base\\Traits\\SerializableISO8061;';
         $use[] = 'use Illuminate\\Database\\Eloquent\\Builder;';
         if (!empty($this->options['relations']['1-n']) || !empty($this->options['relations']['n-n']) || array_first($fields, function($field) { return $field['type'] === 'collection'; })) {
             $use[] = 'use Illuminate\\Database\\Eloquent\\Collection;';
@@ -245,6 +239,10 @@ class Scaffolder
             else if (in_array($field['type'], ['array', 'bool', 'collection', 'date', 'datetime', 'float', 'object'])) {
                 $casts[] = "'" . $field['name'] . "' => '" . $field['type'] . "',";
             }
+        }
+        if ($hasTimestamps) {
+            $casts[] = "'created_at' => 'datetime',";
+            $casts[] = "'updated_at' => 'datetime',";
         }
         $casts = !empty($casts) ? "\n\t\t" . implode("\n\t\t", $casts) . "\n\t" : '';
 
@@ -936,7 +934,7 @@ class Scaffolder
 
         // load the view containing the menu
 
-        $path = 'resources/views/' . str_replace('.', '/', $this->navView) . '.blade.php';
+        $path = 'resources/views/vendor/base/_nav.blade.php';
         $content = $this->loadFile($path);
 
         // make sure the nav item does not exist yet
@@ -949,7 +947,7 @@ class Scaffolder
         // add the menu item and save
 
         if (($pos = strpos($content, '<!-- nav-item-mark -->')) === false) {
-            $this->error('Marker "<!-- nav-item-mark -->" is missing in "' . $this->navView . '".');
+            $this->error('Marker "<!-- nav-item-mark -->" is missing in "' . $path . '".');
             return false;
         }
         $ahead = substr($content, 0, $pos);
@@ -968,7 +966,7 @@ class Scaffolder
     {
         $package = $this->options['package'];
         $title   = title_case(str_replace('-', ' ', $package));
-        $path = 'resources/views/' . str_replace('.', '/', $this->navView) . '.blade.php';
+        $path    = 'resources/views/vendor/base/_nav.blade.php';
 
         $themes = array_filter(scandir($this->stubPath), function($theme) {
             return $theme !== '.' && $theme !== '..';
@@ -1002,7 +1000,7 @@ class Scaffolder
         $title   = title_case(str_replace('-', ' ', $package));
 
         $locales = array_filter(scandir(resource_path('lang')), function($locale) {
-            return $locale !== '.' && $locale !== '..'  && is_dir(resource_path('lang/' . $locale));
+            return $locale !== '.' && $locale !== '..'  && $locale !== 'vendor' && is_dir(resource_path('lang/' . $locale));
         });
 
         /** @var Translator $translator */
@@ -1011,21 +1009,21 @@ class Scaffolder
         $warning = null;
         $result = true;
         foreach ($locales as $locale) {
-            $path = 'resources/lang/' . $locale . '/app.php';
-            if ($translator->has('app.nav.' . $package, $locale, false)) {
-                $warning = 'The translation "app.nav.' . $package . '" for locale "' . $locale . '" is already defined.';
+            $path = 'resources/lang/' . $locale . '/nav.php';
+            if ($translator->has('nav.' . $package, $locale, false)) {
+                $warning = 'The translation "nav.' . $package . '" for locale "' . $locale . '" is already defined.';
                 $result = false;
             }
             else {
                 $content = $this->loadFile($path);
-                if (($pos = strpos($content, "'nav' => [")) === false) {
-                    $error = 'Attribute "nav" is missing in "' . $path . '".';
+                if (($pos = strpos($content, "return [\n")) === false) {
+                    $error = 'Unexpected code in "' . $path . '".';
                     $result = false;
                 }
                 else {
-                    $ahead = substr($content, 0, $pos + 10);
-                    $below = substr($content, $pos + 10);
-                    $content = $ahead . "\n\t\t'" . $package . "' => '" . $title . "'," . $below;
+                    $ahead = substr($content, 0, $pos + 9);
+                    $below = substr($content, $pos + 9);
+                    $content = $ahead . "\n\t'" . $package . "' => '" . $title . "'," . $below;
                     if (!$this->saveFile($path, $content, true)) {
                         $result = false;
                     }
@@ -1054,17 +1052,17 @@ class Scaffolder
         $title   = title_case(str_replace('-', ' ', $package));
 
         $locales = array_filter(scandir(resource_path('lang')), function($locale) {
-            return $locale !== '.' && $locale !== '..'  && is_dir(resource_path('lang/' . $locale));
+            return $locale !== '.' && $locale !== '..'  && $locale !== 'vendor' && is_dir(resource_path('lang/' . $locale));
         });
 
         $warning = null;
         $result = true;
         foreach ($locales as $locale) {
-            $path = 'resources/lang/' . $locale . '/app.php';
+            $path = 'resources/lang/' . $locale . '/nav.php';
             $count = 0;
-            $content = str_replace("\n\t\t'" . $package . "' => '" . $title . "',", '', $this->loadFile($path), $count);
+            $content = str_replace("\n\t'" . $package . "' => '" . $title . "',", '', $this->loadFile($path), $count);
             if ($count !== 1 || !$this->saveFile($path, $content, true)) {
-                $warning = 'Translation "app.nav.' . $package . '" for locale "' . $locale . '" not found.';
+                $warning = 'Translation "nav.' . $package . '" for locale "' . $locale . '" not found.';
                 $result = false;
             }
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\##model##;
 use Exception;
+use FRohlfing\Base\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

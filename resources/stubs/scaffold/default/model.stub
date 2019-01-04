@@ -13,7 +13,7 @@ namespace App;
  */
 class ##model## extends Model
 {
-    use Searchable, AccessesRules;
+    use Searchable, AccessesRules, SerializableISO8061;
 
     /**
      * The database table used by the model.

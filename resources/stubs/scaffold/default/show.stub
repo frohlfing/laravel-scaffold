@@ -16,12 +16,12 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-9 col-sm-offset-3">
                                 @can('manage-##package##')
-                                    <a href="{{ route('##package##.edit', [$##entity##->id]) }}" class="btn btn-sm btn-info" title="{{ __('common.edit') }}">
+                                    <a href="{{ route('##package##.edit', [$##entity##->id]) }}" class="btn btn-sm btn-info" title="{{ __('base::common.edit') }}">
                                         <i class="fas fa-pencil-alt"></i>
-                                        {{ __('common.buttons.edit') }}
+                                        {{ __('base::common.buttons.edit') }}
                                     </a>
                                 @endcan
-                                <a href="{{route('##package##.index')}}" class="btn btn-sm btn-secondary">{{__('common.buttons.back')}}</a>
+                                <a href="{{route('##package##.index')}}" class="btn btn-sm btn-secondary">{{__('base::common.buttons.back')}}</a>
                             </div>
                         </div>
                     </div>
