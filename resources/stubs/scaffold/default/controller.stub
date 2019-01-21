@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\##model##;
 use Exception;
 use FRohlfing\Base\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,24 +17,29 @@ class ##model##Controller extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @param ##model## $builder
      * @return View
      */
-    public function index(Request $request, ##model## $builder)
+    public function index(Request $request)
     {
-        $searchTerm = $request->input('search');
-        if ($searchTerm) {
-            $builder = $builder->search($searchTerm);
+        $input = $request->input();
+
+        /** @var ##model##|Builder $builder */
+        $builder = ##model##::query();
+
+        if (isset($input['search'])) {
+            $builder = $builder->search($input['search']);
         }
 
-        $sortby = $request->input('sort_by', 'id');
-        $order = $request->input('sort_order', 'desc');
-        if ($sortby && $order) {
-            $builder = $builder->orderBy($sortby, $order);
+        if (isset($input['sort_by'])) {
+            $builder = $builder->orderBy($input['sort_by'], isset($input['sort_order']) ? $input['sort_order'] : 'asc');
         }
 
-        $perPage = 20;
-        $##entities## = $builder->paginate($perPage)->appends($request->input());
+        $perPage = config('auth.per_page', 100);
+        if (isset($input['per_page']) && $input['per_page'] * 1 < $perPage) {
+            $perPage = $input['per_page'];
+        }
+
+        $##entities## = $builder->paginate($perPage)->appends($input);
 
         return view('##package##.index', compact('##entities##'));
     }
