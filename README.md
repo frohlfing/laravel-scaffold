@@ -1,4 +1,4 @@
-# Scaffold Generator for Laravel 5.6
+# Scaffold Generator for Laravel 5.7
 
 This package provides following artisan commands:
 
@@ -19,7 +19,7 @@ Composer where the package is. To do this, add the following lines into your `co
 
 Download this package by running the following command:
 
-    composer require frohlfing/laravel-scaffold:1.56.*@dev
+    composer require frohlfing/laravel-scaffold:1.57.*@dev
 
 Publish the stubs for editing. The stubs will be placed in `resources/stubs/vendor/scaffold`.
 
