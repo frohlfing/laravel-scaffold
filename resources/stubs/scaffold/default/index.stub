@@ -6,8 +6,8 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                @include('base::_message')
-                @include('base::_errors')
+                @include('_message')
+                @include('_errors')
                 <div class="card">
                     <div class="card-header">
                         {{ __('##package##.index.heading') }}
@@ -15,11 +15,11 @@
                     <div class="card-body">
                         <div class ="row">
                             <div class="col-xs-8 col-sm-6">
-                                @include('base::_search')
+                                @include('_search')
                             </div>
                             @can('manage-##package##')
                                 <div class="col-xs-4 col-sm-6 text-right">
-                                    <a href="{{ route('##package##.create') }}" class="btn btn-info" title="{{ __('base::common.buttons.new') }}">
+                                    <a href="{{ route('##package##.create') }}" class="btn btn-info" title="{{ __('common.buttons.new') }}">
                                         <i class="fas fa-plus"></i>
                                     </a>
                                 </div>
@@ -40,17 +40,17 @@
                                             <td>{{ $##entity##->id }}</td>
                                             ##tabledata##
                                             <td class="text-right text-nowrap">
-                                                <a href="{{ route('##package##.show', array_merge([$##entity##->id], request()->input())) }}" class="btn btn-sm btn-info" title="{{ __('base::common.show') }}">
+                                                <a href="{{ route('##package##.show', array_merge([$##entity##->id], request()->input())) }}" class="btn btn-sm btn-info" title="{{ __('common.show') }}">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                                 @can('manage-##package##')
-                                                    <a href="{{ route('##package##.edit', [$##entity##->id]) }}" class="btn btn-sm btn-info" title="{{ __('base::common.edit') }}">
+                                                    <a href="{{ route('##package##.edit', [$##entity##->id]) }}" class="btn btn-sm btn-info" title="{{ __('common.edit') }}">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a>
-                                                    <a href="{{ route('##package##.replicate', [$##entity##->id]) }}" class="btn btn-sm btn-info" title="{{ __('base::common.replicate') }}">
+                                                    <a href="{{ route('##package##.replicate', [$##entity##->id]) }}" class="btn btn-sm btn-info" title="{{ __('common.replicate') }}">
                                                         <i class="fas fa-clone"></i>
                                                     </a>
-                                                    <a href="{{ route('##package##.destroy', array_merge([$##entity##->id], request()->input())) }}" data-method="DELETE" data-confirm="{{ __('base::common.confirm_deleting') }}" class="btn btn-sm btn-danger delete-button" title="{{ __('base::common.delete') }}">
+                                                    <a href="{{ route('##package##.destroy', array_merge([$##entity##->id], request()->input())) }}" data-method="DELETE" data-confirm="{{ __('common.confirm_deleting') }}" class="btn btn-sm btn-danger delete-button" title="{{ __('common.delete') }}">
                                                         <i class="fas fa-trash-alt no-spinner"></i>
                                                     </a>
                                                 @endcan
@@ -60,7 +60,7 @@
                                     @if($##entities##->isEmpty())
                                         <tr>
                                             <td colspan="100" class="no-hit text-center">
-                                                - {{ __('base::common.no_entries_found') }} -
+                                                - {{ __('common.no_entries_found') }} -
                                             </td>
                                         </tr>
                                     @endif

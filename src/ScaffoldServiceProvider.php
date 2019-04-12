@@ -11,6 +11,8 @@ class ScaffoldServiceProvider extends ServiceProvider
     /**
      * Indicates if loading of the provider is deferred.
      *
+     * Wenn das Package Routen beinhaltet, muss hier false stehen!
+     *
      * @var bool
      */
     protected $defer = false;
