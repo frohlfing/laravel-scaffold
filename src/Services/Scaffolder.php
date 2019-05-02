@@ -1358,11 +1358,11 @@ class Scaffolder
      */
     private function warn($string)
     {
-        if (!$this->output->getFormatter()->hasStyle('warning')) {
-            $style = new OutputFormatterStyle('yellow');
-            $this->output->getFormatter()->setStyle('warning', $style);
-        }
-        $this->output->write("<warning>$string</warning>");
+//        if (!$this->output->getFormatter()->hasStyle('warning')) {
+//            $style = new OutputFormatterStyle('yellow');
+//            $this->output->getFormatter()->setStyle('warning', $style);
+//        }
+        $this->output->write("<comment>$string</comment>");
     }
 
     /**

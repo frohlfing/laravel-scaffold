@@ -40,7 +40,7 @@ class ScaffoldCreateCommand extends Command
     protected $signature = 'scaffold:create 
                             { model               : Name of the model }
                             { fields?*            : Space separated list of fields (optional) }
-                            { --p|package=        : Package name (default: kebab case and plural of model name) }
+                            { --p|package=        : Package name <comment>[default: kebab case and plural of model name]</comment> }
                             { --t|table=          : Use this table for the model. The Table must exists }
                             { --b|big-increments  : Use unsigned bigint as primary key instead of unsigned int }
                             { --d|no-timestamps   : Do not create timestamps created_at and updated_at }
@@ -49,7 +49,7 @@ class ScaffoldCreateCommand extends Command
                             { --m|migrate         : Run the database migration }
                             { --c|composer        : Dump composer autoload files }
                             { --f|force           : Overwrite any existing files }
-                            { --s|theme=          : Theme (default or vue) }';
+                            { --s|theme=default   : Theme (default or vue) }';
 
     /**
      * The console command description.
@@ -85,7 +85,7 @@ class ScaffoldCreateCommand extends Command
             "Field Definition:\n" .
             "  <name>:<type><length>[option1,options2,...]!=<default>\n" .
             "    name      \tField name\n" .
-            "    :type     \tField type (default: string)\n" .
+            "    :type     \tField type [default: string]\n" .
             "    length    \tField length (optional; only for string, char and decimal)\n" .
             "    [options] \tComma separated list of options to create a select field (optional)\n" .
             "    !         \tRequired field (optional)\n" .
@@ -109,10 +109,11 @@ class ScaffoldCreateCommand extends Command
         try {
             $options = $this->options();
 
-            if (!isset($options['theme'])) {
-                $options['theme'] = 'default';
-            }
-            else if (!in_array($options['theme'], $this->themes)) {
+//            if (!isset($options['theme'])) {
+//                $options['theme'] = 'default';
+//            }
+//            else
+            if (!in_array($options['theme'], $this->themes)) {
                 $this->error('Theme "' . $options['theme'] . '" is not defined!');
                 $options['theme'] = $this->choice('Which theme should be used?', $this->themes, 0);
             }
