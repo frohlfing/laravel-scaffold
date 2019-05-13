@@ -41,6 +41,7 @@ class ScaffoldCreateCommand extends Command
                             { model               : Name of the model }
                             { fields?*            : Space separated list of fields (optional) }
                             { --p|package=        : Package name <comment>[default: kebab case and plural of model name]</comment> }
+                            { --t|database=       : The database connection to use }
                             { --t|table=          : Use this table for the model. The Table must exists }
                             { --b|big-increments  : Use unsigned bigint as primary key instead of unsigned int }
                             { --d|no-timestamps   : Do not create timestamps created_at and updated_at }
@@ -164,7 +165,7 @@ class ScaffoldCreateCommand extends Command
         //$this->line('Read database table schema of "' . $this->option('table') . '".');
 
         /** @var \Illuminate\Database\Connection $db */
-        $db = DB::connection();
+        $db = DB::connection($this->option('database'));
         $table = $db->getTablePrefix() . $this->option('table');
         $schema = $db->getDoctrineSchemaManager();
         if (!$schema->tablesExist([$table])) {

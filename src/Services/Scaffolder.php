@@ -1284,7 +1284,7 @@ class Scaffolder
      */
     private function migrate()
     {
-        if (Artisan::call('migrate') !== 0) {
+        if (Artisan::call('migrate', !empty($this->options['database']) ? ['--database' => $this->options['database']] : []) !== 0) {
             $this->error('Unable to migrate the database.');
             return false;
             //throw new RuntimeException('Unable to migrate the database.');
