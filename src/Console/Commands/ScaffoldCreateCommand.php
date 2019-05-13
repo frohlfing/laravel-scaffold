@@ -44,7 +44,7 @@ class ScaffoldCreateCommand extends Command
                             { --d|database=       : The database connection to use }
                             { --t|table=          : Use this table for the model. The Table must exists }
                             { --b|big-increments  : Use unsigned bigint as primary key instead of unsigned int }
-                            { --d|no-timestamps   : Do not create timestamps created_at and updated_at }
+                            { --n|no-timestamps   : Do not create timestamps created_at and updated_at }
                             { --u|skip-ui         : Create just only the model and migration file }
                             { --r|expose-routes   : Register routes separately instead of using Route::resource() }
                             { --m|migrate         : Run the database migration }
