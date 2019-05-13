@@ -41,7 +41,7 @@ class ScaffoldCreateCommand extends Command
                             { model               : Name of the model }
                             { fields?*            : Space separated list of fields (optional) }
                             { --p|package=        : Package name <comment>[default: kebab case and plural of model name]</comment> }
-                            { --t|database=       : The database connection to use }
+                            { --d|database=       : The database connection to use }
                             { --t|table=          : Use this table for the model. The Table must exists }
                             { --b|big-increments  : Use unsigned bigint as primary key instead of unsigned int }
                             { --d|no-timestamps   : Do not create timestamps created_at and updated_at }
