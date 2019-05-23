@@ -8,7 +8,6 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Translation\Translator;
 use RuntimeException;
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -198,7 +197,7 @@ class Scaffolder
         foreach ($this->options['relations']['n-n'] as $relation) {
             $phpdoc[] = '* @property-read Collection|' . $relation . '[] $' . str_plural(snake_case($relation));
         }
-
+        $phpdoc[] = '* @method static ' . $model . ' create(array $attributes = [])';
         $phpdoc[] = '* @method static Builder|' . $model . ' search($terms)';
         $phpdoc[] = '* @method static Builder|' . $model . ' whereId($value)';
         foreach ($fields as $field) {
