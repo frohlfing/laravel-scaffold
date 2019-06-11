@@ -422,9 +422,9 @@ class Scaffolder
                 'method' => 'hasOne',
             ]);
 
-            $phpPdoc = ' * @property-read ' . $model . ' ' . snake_case($model);
+            $phpdoc = '* @property-read ' . $model . ' $' . snake_case($model);
 
-            if (!$this->createRelationInForeignModels($relation, $func, $code, $phpPdoc)) {
+            if (!$this->createRelationInForeignModels($relation, $func, $code, $phpdoc)) {
                 $result = false;
             }
         }
@@ -439,9 +439,9 @@ class Scaffolder
                 'method' => 'belongsTo',
             ]);
 
-            $phpPdoc = ' * @property-read ' . $model . ' ' . snake_case($model);
+            $phpdoc = '* @property-read ' . $model . ' $' . snake_case($model);
 
-            if (!$this->createRelationInForeignModels($relation, $func, $code, $phpPdoc)) {
+            if (!$this->createRelationInForeignModels($relation, $func, $code, $phpdoc)) {
                 $result = false;
             }
         }
@@ -456,9 +456,9 @@ class Scaffolder
                 'method' => 'hasMany',
             ]);
 
-            $phpPdoc = ' * @property-read Collection|' . $model . '[] ' . snake_case($model);
+            $phpdoc = '* @property-read Collection|' . $model . '[] $' . str_plural(snake_case($model));
 
-            if (!$this->createRelationInForeignModels($relation, $func, $code, $phpPdoc)) {
+            if (!$this->createRelationInForeignModels($relation, $func, $code, $phpdoc)) {
                 $result = false;
             }
         }
@@ -473,9 +473,9 @@ class Scaffolder
                 'method' => 'belongsToMany',
             ]);
 
-            $phpPdoc = ' * @property-read Collection|' . $model . '[] ' . snake_case($model);
+            $phpdoc = '* @property-read Collection|' . $model . '[] $' . str_plural(snake_case($model));
 
-            if (!$this->createRelationInForeignModels($relation, $func, $code, $phpPdoc)) {
+            if (!$this->createRelationInForeignModels($relation, $func, $code, $phpdoc)) {
                 $result = false;
             }
         }
@@ -525,13 +525,16 @@ class Scaffolder
 
         // generate PHPDoc
 
-        if (($posClass = strpos($content, " */\nclass " . $relation)) !== false) {
-            if (($pos = strpos($content, " * @method ")) === false || $pos > $posClass) {
+        //$matches = [];
+        if (preg_match('/\*\/\s*\nclass /', $content, $matches, PREG_OFFSET_CAPTURE)) {
+            $posClass = $matches[0][1];
+        //if (($posClass = strpos($content, "*/\nclass " . $relation)) !== false) {
+            if (($pos = strpos($content, '* @method ')) === false || $pos > $posClass) {
                 $pos = $posClass;
             }
             $ahead = substr($content, 0, $pos);
             $below = substr($content, $pos);
-            $content = $ahead . $phpdoc . "\n" . $below;
+            $content = $ahead . $phpdoc . "\n " . $below;
         }
 
         return $this->saveFile($path, $content, true);
