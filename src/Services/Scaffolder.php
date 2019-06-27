@@ -198,7 +198,12 @@ class Scaffolder
             $phpdoc[] = '* @property-read Collection|' . $relation . '[] $' . str_plural(snake_case($relation));
         }
         $phpdoc[] = '* @method static ' . $model . ' create(array $attributes = [])';
+        $phpdoc[] = '* @method static ' . $model . ' find($id, $columns = [\'*\'])';
+        $phpdoc[] = '* @method static Builder|' . $model . ' join($table, $first, $operator = null, $second = null, $type = \'inner\', $where = false)';
+        $phpdoc[] = '* @method static Builder|' . $model . ' orderBy($column, $direction = \'asc\')';
         $phpdoc[] = '* @method static Builder|' . $model . ' search($terms)';
+        $phpdoc[] = '* @method static truncate()';
+        $phpdoc[] = '* @method static Builder|' . $model . ' where($column, $operator = null, $value = null, $boolean = \'and\')';
         $phpdoc[] = '* @method static Builder|' . $model . ' whereId($value)';
         foreach ($fields as $field) {
             $phpdoc[] = '* @method static Builder|' . $model . ' where' . studly_case($field['name']) . '($value)';
